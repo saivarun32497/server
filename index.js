@@ -15,8 +15,7 @@ app.use(cors({ origin: 'https://creative-lolly-4e34fe.netlify.app' }));
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "https://creative-lolly-4e34fe.netlify.app",// Update with your frontend URL
-    methods: ['GET', 'POST'], // Update with your frontend URL
+    origin: "*",
   },
 });
 
