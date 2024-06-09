@@ -1,148 +1,3 @@
-// const express = require('express');
-// const cors = require('cors');
-// const connectDB = require("./config/databaseConnection");
-// const { Server } = require('socket.io');
-// const socketio = require('socket.io');
-// const http = require('http');
-// const cron = require('node-cron');
-// const moment = require('moment');
-// const Group = require('./models/groupsModel')
-// const ObjectId = require('mongoose').Types.ObjectId;
-// const PORT = 3000;
-// const app = express();
-
-// const server = http.createServer(app);
-// connectDB();
-
-// const io = new Server(server, {
-//   cors: {
-//     origin: "http://localhost:5173",
-//   },
-// });
-
-// io.on("connection", (socket) => {
-//   console.log("User Connected", socket.id);
-
-//   socket.on("message", ({ room, message }) => {
-//     console.log({ room, message });
-//     socket.to(room).emit("receive-message", message);
-//   });
-
-//   socket.on("join-room", (room) => {
-//     socket.join(room);
-//     console.log(`User joined room ${room}`);
-//   });
-
-//   socket.on("disconnect", () => {
-//     console.log("User Disconnected", socket.id);
-//   });
-// });
-
-// app.use(cors());
-// app.use(express.json());
-
-// app.use("/api/user", require('./routes/userRoutes'));
-
-
-
-
-
-
-
-
-
-
-// // async function moveTimedContentToGroupContent(group) {
-// //   const currentDate = moment();
-// //   const updatedTimedGroupContent = [];
-// //   group.timedGroupContent.forEach(content => {
-// //       const dateToBeSentOn = moment(content.dateToBeSentOn, 'YYYY-MM-DDTHH:mm');
-// //       if (currentDate.isSame(dateToBeSentOn, 'day')) {
-// //           group.groupContent.push({
-// //               title: content.title,
-// //               sentBy: content.sentBy,
-// //               fileAddress: content.fileAddress,
-// //               otherData: content.otherData,
-// //               dateSent: currentDate.format('DD-MM-YYYY, dddd - HH:mm'),
-// //           });
-// //       } else {
-// //           updatedTimedGroupContent.push(content); // Retain non-moved content
-// //       }
-// //   });
-// //   group.timedGroupContent = updatedTimedGroupContent; // Update the timedGroupContent
-// //   await group.save(); // Save the updated group to the database
-// // }
-
-// async function moveTimedContentToGroupContent() {
-//   const socket = socketio();
-//   const currentDate = moment();
-  
-//   // Fetch all groups
-//   const groups = await Group.find();
-  
-//   for (const group of groups) {
-//     const updatedTimedGroupContent = [];
-    
-//     // Iterate through timedGroupContent of each group
-//     for (const content of group.timedGroupContent) {
-//       const dateToBeSentOn = moment(content.dateToBeSentOn, 'YYYY-MM-DDTHH:mm');
-      
-//       // Check if the current time matches the exact minute of dateToBeSentOn
-//       if (currentDate.isSame(dateToBeSentOn, 'minute')) {
-//         group.groupContent.push({
-//           title: content.title,
-//           sentBy: content.sentBy,
-//           fileAddress: content.fileAddress,
-//           otherData: content.otherData,
-//           dateSent: currentDate.format('DD-MM-YYYY, dddd - HH:mm'),
-//         });
-//       } else {
-//         updatedTimedGroupContent.push(content); 
-//       }
-//     }
-    
-//     group.timedGroupContent = updatedTimedGroupContent;
-    
-//     await group.save();
-    
-//     const groupIdString = group._id.toString();
-//     console.log(groupIdString);
-//     socket.to(groupIdString).emit("receive-message", "New content added to the group.");
-//   }
-// }
-// cron.schedule('*/30 * * * * *', async () => {
-//   console.log('Hiiiii');
-//   await moveTimedContentToGroupContent();
-// }, {
-//   timezone: "Asia/Kolkata"
-// });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// server.listen(PORT, "0.0.0.0", () => {
-//   console.log("Server is running at port:", PORT);
-// });
-
-
 const express = require('express');
 const cors = require('cors');
 const connectDB = require("./config/databaseConnection");
@@ -155,10 +10,13 @@ const PORT = 3000;
 const app = express();
 connectDB();
 
+app.use(cors({ origin: 'https://creative-lolly-4e34fe.netlify.app' }));
+
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "https://creative-lolly-4e34fe.netlify.app", // Update with your frontend URL
+    origin: "https://creative-lolly-4e34fe.netlify.app",// Update with your frontend URL
+    methods: ['GET', 'POST'], // Update with your frontend URL
   },
 });
 
@@ -181,7 +39,6 @@ io.on("connection", (socket) => {
   });
 });
 
-app.use(cors());
 app.use(express.json());
 
 // Importing REST API routes
