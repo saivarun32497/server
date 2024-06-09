@@ -122,12 +122,24 @@ app.use('/api/user', userRoutes);
 const server = http.createServer(app);
 
 // Socket.IO setup with CORS
+// const io = new Server(server, {
+//   cors: {
+//     origin: 'https://creative-lolly-4e34fe.netlify.app', // Update with your frontend URL
+//     methods: ['GET', 'POST'],
+//   },
+// });
+
+
+
 const io = new Server(server, {
+  path: '/socket',
+  wssEngine: ['ws', 'wss'],
+  transports: ['websocket', 'polling'],
   cors: {
-    origin: 'https://creative-lolly-4e34fe.netlify.app', // Update with your frontend URL
-    methods: ['GET', 'POST'],
+  origin: '*',
   },
-});
+  allowEI03: true,
+  })
 
 // Socket.IO Connection Handling
 io.on('connection', (socket) => {
