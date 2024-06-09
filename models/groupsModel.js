@@ -1,0 +1,81 @@
+const mongoose = require("mongoose");
+
+const groupSchema = mongoose.Schema({
+    groupAdminID:{
+        type:String,
+        required:true
+    },
+    groupName:{
+        type:String,
+        required:true 
+    },
+    groupProfile:{
+        type:String,
+        required:true 
+    },
+    groupMembers:[{
+        name:{
+            type:String,
+            required:true
+        },
+        email:{
+            type:String,
+            required:true
+        },
+        userID:{
+            type:String,
+            required:true
+        },
+        phoneNo:{
+            type:String,
+            required:true
+        },
+    }],
+    groupContent:[{
+        title:{
+            type:String,
+            required:true
+        },
+        sentBy:{
+            type:String,
+            required:true
+        },
+        fileAddress:{
+            type:String,
+            required:true
+        },
+        otherData:{
+            type:String,
+            required:true
+        },
+        dateSent:{
+            type:String,
+            required:true
+        },
+    }],
+    timedGroupContent:[{
+        title:{
+            type:String,
+            required:true
+        },
+        sentBy:{
+            type:String,
+            required:true
+        },
+        fileAddress:{
+            type:String,
+            required:true
+        },
+        otherData:{
+            type:String,
+            required:true
+        },
+        dateToBeSentOn:{
+            type:String,
+            required:true
+        },
+    }],
+
+})
+
+module.exports = mongoose.model('groups',groupSchema);
