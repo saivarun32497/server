@@ -158,7 +158,7 @@ connectDB();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "https://group-share.vercel.app", // Update with your frontend URL
+    origin: "https://creative-lolly-4e34fe.netlify.app", // Update with your frontend URL
   },
 });
 
