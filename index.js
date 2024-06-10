@@ -19,7 +19,7 @@ app.use(cors({ origin: '*' }));
 app.use(express.json());
 
 // Routes
-app.use('/api/user', userRoutes);
+app.use('/api/user', require('./routes/userRoutes'));
 
 // Create HTTP server
 const server = http.createServer(app);

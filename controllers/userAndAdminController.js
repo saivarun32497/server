@@ -87,10 +87,10 @@ const deleteGroupByIdForAdmin = async (groupId) => {
 };
 
 const updateUserDetails = asyncHandler(async(req,res)=>{
-    const userId = req.params.id;
+    const userId = req.query.id;
     const updatedData = req.body;
     const user = await User.findByIdAndUpdate(userId, updatedData, { new: true, runValidators: true });
-
+    
     if (!user) {
         res.status(404).json({ message: 'User not found' });
     } else {

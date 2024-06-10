@@ -17,6 +17,7 @@ router.route('/joinGroup').get(joinGroup)
 router.route('/leaveGroup').get(leaveGroup)
 router.route('/getAdmins').get(getAdmins);
 router.route('/removeAdmin').get(removeAdmin);
+
 router.route('/updateUserDetails').post(updateUserDetails);
 
 
