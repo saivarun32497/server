@@ -48,6 +48,57 @@ const getUserData = asyncHandler(async(req,res)=>{
     res.json(currentUser);
 });
 
+const getAdmins = asyncHandler(async(req,res)=>{
+    const admins = await User.find({isAdmin:true});
+    res.status(200).json(admins);
+});
+
+const removeAdmin = asyncHandler(async (req, res) => {
+    const adminId = req.query.id;
+
+
+    const admin = await User.findById(adminId);
+    if (!admin) {
+        return res.status(404).json({ message: 'Admin not found' });
+    }
+
+    const joinedGroups = admin.joinedGroups;
+
+    await User.findByIdAndDelete(adminId);
+
+    for (const group of joinedGroups) {
+        await deleteGroupByIdForAdmin(group.groupId);
+    }
+
+    res.status(200).json({ message: 'Admin and their groups deleted successfully' });
+});
+
+const deleteGroupByIdForAdmin = async (groupId) => {
+    const group = await Group.findByIdAndDelete(groupId);
+    if (!group) {
+        return;
+    }
+
+    const users = await User.find();
+    for (const user of users) {
+        user.joinedGroups = user.joinedGroups.filter(group => group.groupId !== groupId);
+        await user.save();
+    }
+};
+
+const updateUserDetails = asyncHandler(async(req,res)=>{
+    const userId = req.params.id;
+    const updatedData = req.body;
+    const user = await User.findByIdAndUpdate(userId, updatedData, { new: true, runValidators: true });
+
+    if (!user) {
+        res.status(404).json({ message: 'User not found' });
+    } else {
+        res.status(200).json(user);
+    }
+})
+
+
 
 const createGroup = asyncHandler(async(req,res)=>{
     const group = await Group.create(req.body);
@@ -138,8 +189,6 @@ const leaveGroup = asyncHandler(async(req,res)=>{
     group.groupMembers = group.groupMembers.filter(group => group.userID !== userId);
     await group.save();
     res.status(200).json({message:"success"});    
-
-
 })
 
-module.exports = {leaveGroup,joinGroup,getAllGroups,createUser,loginUser,getUserData,createGroup,getGroupData,createFileUploadNow,createFileUploadTime,deleteGroup}
+module.exports = {updateUserDetails,removeAdmin,getAdmins,leaveGroup,joinGroup,getAllGroups,createUser,loginUser,getUserData,createGroup,getGroupData,createFileUploadNow,createFileUploadTime,deleteGroup}

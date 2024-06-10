@@ -1,5 +1,5 @@
 const express = require('express');
-const { createUser, loginUser, getUserData, createGroup, getGroupData, createFileUploadNow, createFileUploadTime, deleteGroup, getAllGroups, joinGroup, leaveGroup } = require('../controllers/userAndAdminController');
+const { createUser, loginUser, getUserData, createGroup, getGroupData, createFileUploadNow, createFileUploadTime, deleteGroup, getAllGroups, joinGroup, leaveGroup, getAdmins, removeAdmin, updateUserDetails } = require('../controllers/userAndAdminController');
 const validateToken = require('../config/tokenValidator');
 const router = express.Router();
 
@@ -15,6 +15,10 @@ router.route('/deleteGroup').get(deleteGroup)
 router.route('/getAllGroups').get(getAllGroups)
 router.route('/joinGroup').get(joinGroup)
 router.route('/leaveGroup').get(leaveGroup)
+router.route('/getAdmins').get(getAdmins);
+router.route('/removeAdmin').get(removeAdmin);
+router.route('/updateUserDetails').post(updateUserDetails);
+
 
 
 
